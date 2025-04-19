@@ -17,7 +17,7 @@ metrics:
             - source_labels: [__address__]
               target_label: __param_target
             - target_label: __address__
-              replacement: localhost:9115
+              replacement: MediLink-monitoring.onrender.com:9115
 
 remote_write:
   - url: https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push
