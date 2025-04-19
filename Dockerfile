@@ -1,20 +1,16 @@
-# Stage 1: Extract Blackbox Exporter binary
+# Stage 1: Blackbox Exporter binary
 FROM prom/blackbox-exporter:v0.24.0 AS blackbox
 
-# Stage 2: Use official Grafana Agent image (Alpine tag pulls faster)
-FROM grafana/agent:latest-alpine
+# Stage 2: Grafana Agent (Debian base, ~200 MB compressed)
+# pick a specific version; v0.40.2 is the most recent stable today
+FROM grafana/agent:v0.40.2
 
-# Blackbox binary + config
+# --- copy binaries & configs ---
 COPY --from=blackbox /bin/blackbox_exporter /usr/local/bin/blackbox_exporter
-COPY blackbox.yml          /etc/blackbox_exporter/blackbox.yml
-
-# Grafana Agent config
-COPY agent-config.yml      /etc/agent/agent-config.yml
+COPY blackbox.yml      /etc/blackbox_exporter/blackbox.yml
+COPY agent-config.yml  /etc/agent/agent-config.yml
 
 EXPOSE 9115
 
-# Use /bin/sh –c … as entrypoint
 ENTRYPOINT ["sh", "-c"]
-
-# ONE string ─ will be run by the entrypoint
 CMD ["blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml & exec grafana-agent --config.expand-env --config.file=/etc/agent/agent-config.yml"]
