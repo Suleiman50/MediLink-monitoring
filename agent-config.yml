@@ -14,12 +14,12 @@ metrics:
             module: [http_2xx]
           static_configs:
             - targets:
-                - https://<MEDILINK_APP>.onrender.com
+              - https://project-medilink.onrender.com
           relabel_configs:
             - source_labels: [__address__]
               target_label: __param_target
             - target_label: __address__
-              replacement: MediLink-monitoring.onrender.com:9115
+              replacement: project-medilink.onrender.com:9115
 
       remote_write:
         - url: https://prometheus-prod-53-prod-me-central-1.grafana.net/api/prom/push
