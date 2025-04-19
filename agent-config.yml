@@ -1,0 +1,26 @@
+server:
+  log_level: info
+
+metrics:
+  global:
+    scrape_interval: 15s
+  configs:
+    - name: blackbox
+      scrape_configs:
+        - job_name: "blackbox"
+          metrics_path: /probe
+          params:
+            module: [http_2xx]
+          static_configs:
+            - targets: ["https://medilink.onrender.com"]
+          relabel_configs:
+            - source_labels: [__address__]
+              target_label: __param_target
+            - target_label: __address__
+              replacement: localhost:9115
+
+remote_write:
+  - url: https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push
+    basic_auth:
+      username: ${GRAFANA_USERNAME}
+      password: ${GRAFANA_API_KEY}
