@@ -18,4 +18,5 @@ EXPOSE 9115
 ENTRYPOINT ["sh", "-c"]
 
 # Run Blackbox Exporter and Grafana Agent together
-CMD ["blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml & exec grafana-agent --config.file=/etc/agent/agent-config.yml"]
+CMD ["sh", "-c", "blackbox_exporter --config.file=/etc/blackbox_exporter/blackbox.yml & \
+     exec grafana-agent --config.expand-env --config.file=/etc/agent/agent-config.yml"]
