@@ -6,7 +6,8 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       curl \
       tar \
-      supervisor && \
+      supervisor \
+      ca-certificates && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Blackbox Exporter
