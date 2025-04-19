@@ -22,7 +22,7 @@ metrics:
               replacement: MediLink-monitoring.onrender.com:9115
 
       remote_write:
-        - url: https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push
+        - url: https://prometheus-prod-53-prod-me-central-1.grafana.net/api/prom/push
           basic_auth:
             username: ${GRAFANA_INSTANCE_ID}
             password: ${GRAFANA_API_KEY}
